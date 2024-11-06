@@ -7,7 +7,6 @@ class TaskIterator:
         self.user = user_obj
         self.index = 0
 
-
     def __iter__(self):
         self.index = 0
         return self
@@ -21,13 +20,13 @@ class TaskIterator:
             raise StopIteration
 
 
-if __name__ == '__main__':
-    task1 = Task('Купить огурцы', 'Купить огурцы для салата')
-    task2 = Task('Купить помидоры', 'Купить помидоры для салата')
-    task3 = Task('Купить лук', 'Купить лук для салата')
-    task4 = Task('Купить перец', 'Купить перец для салата')
+if __name__ == "__main__":
+    task1 = Task("Купить огурцы", "Купить огурцы для салата")
+    task2 = Task("Купить помидоры", "Купить помидоры для салата")
+    task3 = Task("Купить лук", "Купить лук для салата")
+    task4 = Task("Купить перец", "Купить перец для салата")
 
-    user = User('User', 'user@mail.ru', 'User', 'Userov', [task1, task2, task3, task4])
+    user = User("User", "user@mail.ru", "User", "Userov", [task1, task2, task3, task4])
 
     iterator = TaskIterator(user)
 

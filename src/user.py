@@ -19,17 +19,16 @@ class User:
         User.users_count += 1
         User.all_tasks_count += len(task_list) if task_list else 0
 
-
     def __str__(self):
-        return f'{self.last_name} {self.first_name}, Email: {self.email}, Всего задач в списке: {len(self.__task_list)}'
+        return (f"{self.last_name} {self.first_name},"
+                f" Email: {self.email}, Всего задач в списке: {len(self.__task_list)}")
 
     @property
     def task_list(self):
-        task_str = ''
+        task_str = ""
         for task in self.__task_list:
-            task_str += f'{str(task)}\n'
+            task_str += f"{str(task)}\n"
         return task_str
-
 
     @task_list.setter
     def task_list(self, task: Task):
@@ -41,13 +40,13 @@ class User:
         return self.__task_list
 
 
-if __name__ == '__main__':
-    task1 = Task('Купить огурцы', 'Купить огурцы для салата')
-    task2 = Task('Купить помидоры', 'Купить помидоры для салата')
-    task3 = Task('Купить лук', 'Купить лук для салата')
-    task4 = Task('Купить перец', 'Купить перец для салата')
+if __name__ == "__main__":
+    task1 = Task("Купить огурцы", "Купить огурцы для салата")
+    task2 = Task("Купить помидоры", "Купить помидоры для салата")
+    task3 = Task("Купить лук", "Купить лук для салата")
+    task4 = Task("Купить перец", "Купить перец для салата")
 
-    user = User('User', 'user@mail.ru', 'User', 'Userov', [task1, task2, task3, task4])
+    user = User("User", "user@mail.ru", "User", "Userov", [task1, task2, task3, task4])
 
     print(user.username)
     print(user.email)
@@ -58,11 +57,10 @@ if __name__ == '__main__':
     print(user.users_count)
     print(User.all_tasks_count)
 
-    task5 = Task('Купить огурцы', 'Купить огурцы для салата')
+    task5 = Task("Купить огурцы", "Купить огурцы для салата")
     user.task_list = task5
 
     print(user.task_list)
     print(User.all_tasks_count)
-
 
     print(user)
