@@ -25,7 +25,7 @@ def create_objects_from_json(data):
 
 
 if __name__ == '__main__':
-    raw_data = read_json('../data/30 09_30_4766a8b2c7152634.42242192data.json')
+    raw_data = read_json('../data/data.json')
     users_data = create_objects_from_json(raw_data)
 
     print(users_data[0].username)
