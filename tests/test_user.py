@@ -38,6 +38,15 @@ def test_task_iterator(task_iterator):
     assert next(task_iterator).name == "Купить огурцы"
     assert next(task_iterator).name == "Купить помидоры"
     assert next(task_iterator).name == "Купить лук"
-
     with pytest.raises(StopIteration):
         next(task_iterator)
+
+
+def test_user_task_list_setter_error(first_user, task):
+    with pytest.raises(TypeError):
+        first_user.task_list = 1
+
+
+def test_user_task_list_setter_periodic_task(first_user, task_periodic1):
+    first_user.task_list = task_periodic1
+    assert first_user.task_in_list[-1].name == 'Купить огурцы'

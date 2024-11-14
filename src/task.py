@@ -1,7 +1,9 @@
 import datetime
+from src.base_task import BaseTask
+from src.print_mixin import PrintMixin
 
 
-class Task:
+class Task(BaseTask, PrintMixin):
     name: str
     description: str
     status: str
@@ -9,7 +11,7 @@ class Task:
     run_time: int
 
     def __init__(
-        self, name, description, status="Ожидает старта", created_at=None, run_time=0
+            self, name, description, status="Ожидает старта", created_at=None, run_time=0
     ):
         self.name = name
         self.description = description
@@ -18,12 +20,15 @@ class Task:
             created_at if created_at else datetime.date.today().strftime("%d.%m.%Y")
         )
         self.run_time = run_time
+        super().__init__()
 
     def __str__(self):
         return f"{self.name}, Статус выполнения: {self.status}, Дата создания: {self.created_at}"
 
     def __add__(self, other):
-        return self.run_time + other.run_time
+        if type(other) is Task:
+            return self.run_time + other.run_time
+        raise TypeError
 
     @classmethod
     def new_task(cls, name, description, status="Ожидает старта", created_at=None):
@@ -36,8 +41,8 @@ class Task:
     @created_at.setter
     def created_at(self, new_date: str):
         if (
-            datetime.datetime.strptime(new_date, "%d.%m.%Y").date()
-            < datetime.datetime.now().date()
+                datetime.datetime.strptime(new_date, "%d.%m.%Y").date()
+                < datetime.datetime.now().date()
         ):
             print("Нельзя изменить дату создания на дату из прошлого")
             return
@@ -65,3 +70,4 @@ if __name__ == "__main__":
     print(task2.created_at)
 
     print(task + task2)
+    # task + 1
