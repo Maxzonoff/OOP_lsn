@@ -1,4 +1,8 @@
+from pyexpat.errors import messages
+
 import pytest
+
+from src.task import Task
 
 
 def test_user_init(first_user, second_user):
@@ -28,7 +32,7 @@ def test_user_task_list_setter(first_user, task):
 
 def test_user_str(first_user):
     assert (
-        str(first_user) == "Userov User, Email: user@mail.ru, Всего задач в списке: 2"
+            str(first_user) == "Userov User, Email: user@mail.ru, Всего задач в списке: 2"
     )
 
 
@@ -50,3 +54,24 @@ def test_user_task_list_setter_error(first_user, task):
 def test_user_task_list_setter_periodic_task(first_user, task_periodic1):
     first_user.task_list = task_periodic1
     assert first_user.task_in_list[-1].name == 'Купить огурцы'
+
+
+def test_middle_runtime(first_user, user_without_tasks):
+    assert first_user.middle_task_runtime() == 45
+    assert user_without_tasks.middle_task_runtime() == 0
+
+
+def test_custom_exception(capsys, first_user):
+    assert len(first_user.task_in_list) == 2
+
+    task_add = Task("Купить огурцы", "Купить огурцы для салата", created_at="05.11.2024")
+    first_user.task_list = task_add
+    message = capsys.readouterr()
+    assert message.out.strip().split('\n')[-2] == 'Нельзя задать задачу с нулевым временем выполнения'
+    assert message.out.strip().split('\n')[-1] == 'Обработка добавления задачи завершена'
+
+    task_add = Task("Купить огурцы", "Купить огурцы для салата", created_at="05.11.2024", run_time=60)
+    first_user.task_list = task_add
+    message = capsys.readouterr()
+    assert message.out.strip().split('\n')[-2] == 'Задача добавлена успешно'
+    assert message.out.strip().split('\n')[-1] == 'Обработка добавления задачи завершена'
